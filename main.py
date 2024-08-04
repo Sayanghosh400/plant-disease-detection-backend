@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import function
+import uvicorn
 
 app = FastAPI()
 
@@ -30,3 +31,7 @@ async def process_input(file: UploadFile = File(...)):
         return {"result": f"Detected disease: {a}"}
     else:
         return {"result": "Failed to evaluate the image."}
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))  # default to 8000 if PORT is not set
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
